@@ -11,14 +11,14 @@ function logEvent(name, params) {
     window.AnalyticsWebInterface.logEvent(name, JSON.stringify(params));
   } else if (window.webkit
       && window.webkit.messageHandlers
-      && window.webkit.messageHandlers.firebase) {
+      && window.webkit.messageHandlers.yShopCallback) {
     // Call iOS interface
     var message = {
       command: 'logEvent',
       name: name,
       parameters: params
     };
-    window.webkit.messageHandlers.firebase.postMessage(message);
+    window.webkit.messageHandlers.yShopCallback.postMessage(message);
   } else {
     // No Android or iOS interface found
     console.log("No native APIs found.");
@@ -76,9 +76,13 @@ function setUserProperty(name, value) {
   
   function appLoginFinished(ysid){
       console.log("Login finished!" + ysid);
-      alert("Login finished");
+      alert("Login finished. ysid = "  + ysid);
   }
 
+  function webViewDidAppear(){
+    alert("WebViewDidAppear");
+  }
+  
   function showLnbMenu(){
   if (window.webkit
       && window.webkit.messageHandlers
@@ -87,7 +91,7 @@ function setUserProperty(name, value) {
         // Call iOS interface
         console.log(">>>requestAppLogin");
         var message = {
-            command: 'showLnbMenu' 
+            command: 'showLNB' 
         };
         window.webkit.messageHandlers.yShopCallback.postMessage(message);
   } 
@@ -95,9 +99,13 @@ function setUserProperty(name, value) {
 </script>
 </head>
 <body>
-<h1>Firebase Analytics Test</h1>
+<h1>Firebase Analytics Test(YShop)</h1>
 <a href="javascript:logEvent('test 00','{\"a\":1234}')">Send Sample Data</a>
 <br/><br/>
+  
+  
+  
+  
   <h1>Login Test</h1>
 
   <a href="javascript:showAppLogin()">Show App Login</a>
